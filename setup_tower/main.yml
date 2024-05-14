@@ -1,10 +1,25 @@
 ---
 - hosts: all
   become: yes
-
+  
   tasks:
-    - include_handlers: "handlers/initial.yml"
+
     - include_vars: "vars/myvars.yml"
 
-    - name:  Call tasks    
-      include_tasks: "task/setup.yml"
+    - name: find_awx_operator
+      find:
+        paths: "{{destination_path}}"
+        patterns: awx-operator
+        recurse: yes
+      register: awx_operator_directory
+  
+    - debug:
+        var: awx_operator_directory
+
+    - name: list_contents
+      shell: |
+        cd {{ item.path }}
+        ls -la
+      loop: "{{ awx_operator_directory.files }}"
+      when: awx_operator_directory.matched > 0
+  
