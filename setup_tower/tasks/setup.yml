@@ -1,5 +1,2 @@
----
-- host: localhost
-  become: yes
-  include_handlers: "../handlers/initial.yml"
-  include_vars: "../vars/myvars.yml"
+- name: Print date
+  shell: date

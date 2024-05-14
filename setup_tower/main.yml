@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+    - include_handlers: "handlers/initial.yml"
+    - include_vars: "vars/myvars.yml"
+
+    - name:  Call tasks    
+      include_tasks: "task/setup.yml"
